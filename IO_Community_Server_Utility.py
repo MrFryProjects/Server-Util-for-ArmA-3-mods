@@ -98,7 +98,9 @@ _fileContent_StartBAT_Components = [r'cd "C:\steamcmd\steamapps\common\Arma 3 Se
                                     _serverInstancePaths[serverInstance-1],
                                     r'" -port=23',
                                     _serverPort,
-                                    r'2 -config="C:\Users\Administrator\Documents\A3Master\CONFIG_server.cfg.txt" -world=empty -mod="',
+                                    r'2 -config="',
+                                    _serverInstancePaths[serverInstance-1],
+                                    r'\CONFIG_server.cfg.txt" -world=empty -mod="',
                                     _modIDs_forStart,
                                     ';"']
 
