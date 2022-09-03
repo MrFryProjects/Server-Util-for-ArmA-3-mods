@@ -15,8 +15,10 @@ armaServer_Path = r'C:\steamcmd\steamapps\common\Arma 3 Server'
 _updateBATPath = os.path.dirname(__file__)
 _updateTXTPath = r'C:\steamcmd'
 _startBATPath = os.path.dirname(__file__)
-_serverInstancePaths = [r'C:\Users\Administrator\Documents\A3Master',
-                        r'C:\Users\Administrator\Documents\A3Events']
+_backupBATPath = os.path.dirname(__file__)
+_serverInstancePaths = [r'C:\Users\Administrator\Documents\A3_Server_1',
+                        r'C:\Users\Administrator\Documents\A3_Server_2',
+                        r'C:\Users\Administrator\Documents\A3_Server_3']
 _modIDs = []
 _fileName = ""
 
@@ -61,6 +63,10 @@ _fileName_StartBAT = "".join(_fileName_StartBAT_Components)
 _fileName_StartBAT = _fileName_StartBAT.replace(" ","_")
 _fileName_StartBAT_Path = "".join([_startBATPath,'\\',_fileName_StartBAT])
 
+_fileName_BackupBAT_Components = ["Backup_ArmA_Server_",str(serverInstance),".bat"]
+_fileName_BackupBAT = "".join(_fileName_BackupBAT_Components)
+_fileName_BackupBAT_Path = "".join([_backupBATPath,'\\',_fileName_BackupBAT])
+
 _fileContent_UpdateBAT_Components = [r'SET STEAMCMD=C:\steamcmd\steamcmd.exe',
                                      '\n',
                                      r'SET UPDATESCRIPT=C:\steamcmd',
@@ -91,8 +97,14 @@ with open(_fileName_UpdateTXT_Path, 'w') as f:
 _modIDs_forStart = ";".join(_modIDs)
 
 _serverPort = str(int(serverInstance) - 1)
-
-_fileContent_StartBAT_Components = [r'cd "C:\steamcmd\steamapps\common\Arma 3 Server\"',
+# Xcopy C:\Users\Administrator\Documents\A3_Server_3\Users\Administrator C:\Users\Administrator\Documents\A3_Server_3\Users\Administrator_Backup_%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%TIME:~0,2%_%TIME:~3,2%_%TIME:~6,2% /E /H /C /I
+_fileContent_StartBAT_Components = [r'Xcopy ',
+                                    _serverInstancePaths[serverInstance-1],
+                                    r'\Users\Administrator ',
+                                    _serverInstancePaths[serverInstance-1],
+                                    r'\Users\Administrator_Backup_%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%TIME:~0,2%_%TIME:~3,2%_%TIME:~6,2% /E /H /C /I',
+                                    '\n',
+                                    r'cd "C:\steamcmd\steamapps\common\Arma 3 Server\"',
                                     '\n',
                                     r'START arma3server_x64.exe -profiles="',
                                     _serverInstancePaths[serverInstance-1],
@@ -106,6 +118,15 @@ _fileContent_StartBAT_Components = [r'cd "C:\steamcmd\steamapps\common\Arma 3 Se
 
 with open(_fileName_StartBAT_Path, 'w') as f:
     f.write("".join(_fileContent_StartBAT_Components))
+
+_fileContent_BackupBAT_Components = [r'Xcopy ',
+                                    _serverInstancePaths[serverInstance-1],
+                                    r'\Users\Administrator ',
+                                    _serverInstancePaths[serverInstance-1],
+                                    r'\Users\Administrator_Backup_%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%TIME:~0,2%_%TIME:~3,2%_%TIME:~6,2% /E /H /C /I']
+
+with open(_fileName_BackupBAT_Path, 'w') as f:
+    f.write("".join(_fileContent_BackupBAT_Components))
 
 print("subprocess starting...")
 subprocess.run("".join([r'C:\steamcmd\steamcmd.exe +runscript ',_fileName_UpdateTXT_Path]))
