@@ -97,7 +97,7 @@ with open(_fileName_UpdateTXT_Path, 'w') as f:
 _modIDs_forStart = ";".join(_modIDs)
 
 _serverPort = str(int(serverInstance) - 1)
-# Xcopy C:\Users\Administrator\Documents\A3_Server_3\Users\Administrator C:\Users\Administrator\Documents\A3_Server_3\Users\Administrator_Backup_%DATE:~-4%-%DATE:~4,2%-%DATE:~7,2%_%TIME:~0,2%_%TIME:~3,2%_%TIME:~6,2% /E /H /C /I
+
 _fileContent_StartBAT_Components = [r'Xcopy ',
                                     _serverInstancePaths[serverInstance-1],
                                     r'\Users\Administrator ',
